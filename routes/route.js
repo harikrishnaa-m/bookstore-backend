@@ -8,6 +8,8 @@ const multerMiddleware = require("../middlewares/multerMiddleware");
 const bookController = require("../controllers/bookController");
 //import jobController
 const jobController = require("../controllers/jobController");
+//import applicationController
+const applicationController = require("../controllers/applicationController");
 //create an instance of route
 const route = new express.Router();
 //import controller
@@ -55,6 +57,16 @@ route.put(
 );
 route.get("/api/admin-details", jwtMiddleware, usercontroller.getAdminDetails);
 route.put("/api/make-payment", jwtMiddleware, bookController.makepayment);
-
+route.post(
+  "/api/addApplication",
+  jwtMiddleware,
+  multerMiddleware.single("resume"),
+  applicationController.addApplication
+);
+route.get(
+  "/api/getApplicants",
+  jwtMiddleware,
+  applicationController.getApplications
+);
 //exporting the route
 module.exports = route;
